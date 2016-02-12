@@ -8,11 +8,7 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
- * @since             1.0.0
- * @package           Admin
  *
- * @wordpress-plugin
  * Plugin Name:       Focal Point for images
  * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       Allow you to select center point of interest on image
@@ -63,7 +59,7 @@ spl_autoload_register('focalpoint\autoload');
  * The code that runs during plugin activation.
  * This action is documented in includes/class-plugin-name-activator.php
  */
-function activate_plugin_name()
+function activate_wpfocalpoint()
 {
 	Activator::activate();
 }
@@ -72,13 +68,13 @@ function activate_plugin_name()
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class--deactivator.php
  */
-function deactivate_plugin_name()
+function deactivate_wpfocalpoint()
 {
 	Deactivator::deactivate();
 }
 
-register_activation_hook(__FILE__, 'activate_plugin_name');
-register_deactivation_hook(__FILE__, 'deactivate_plugin_name');
+//register_activation_hook(__FILE__, 'activate_wpfocalpoint');
+//register_deactivation_hook(__FILE__, 'deactivate_wpfocalpoint');
 
 /**
  * Begins execution of the plugin.
@@ -89,7 +85,7 @@ register_deactivation_hook(__FILE__, 'deactivate_plugin_name');
  *
  * @since    1.0.0
  */
-function run_plugin_name()
+function run_wpfocalpoint()
 {
 
 	$plugin = new Focalpoint();
@@ -97,6 +93,6 @@ function run_plugin_name()
 
 }
 
-run_plugin_name();
+run_wpfocalpoint();
 
 

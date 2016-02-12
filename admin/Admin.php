@@ -64,69 +64,6 @@ class Admin {
 
 	}
 
-	public static function attachment_fields_to_save($post, $attachment)
-	{
-		if (isset($attachment[ self::META_POSITION ]) && $attachment[ self::META_POSITION ]) {
-			$previousPosition = self::get_position($post['ID']);
-			$position         = json_decode($attachment[ self::META_POSITION ]);
-			update_post_meta($post['ID'], self::META_POSITION, $position);
-
-			// Update the thumbnail if the position changed
-			if ($previousPosition[0] != $position[0] || $previousPosition[1] != $position[1]) {
-				$realOldImagePath = get_attached_file($post['ID']);
-				$oldImagePath     = str_ireplace('-focalcropped', '', $realOldImagePath);
-				// Rename file, while keeping the previous version
-				// Generate new filename
-				$oldImagePathParts = pathinfo($oldImagePath);
-				$filename          = $oldImagePathParts['filename'];
-				$suffix            = '-focalcropped';
-				$filename          = str_ireplace('-focalcropped', '', $filename);
-
-				$filename .= $suffix;
-				$newImageFile = "{$filename}.{$oldImagePathParts['extension']}";
-				$newImagePath = "{$oldImagePathParts['dirname']}/$newImageFile";
-				$url          = '';
-				if (copy($oldImagePath, $newImagePath)) {
-					$url = $newImagePath;
-				};
-				if ($url == '') {
-					return false;
-				}
-				@set_time_limit(900); // 5 minutes per image should be PLENTY
-				update_attached_file($post['ID'], $url);
-				$metadata = wp_generate_attachment_metadata($post['ID'], $url);
-				if ( !$metadata || is_wp_error($metadata)) {
-					wp_send_json_error('empty metadata');
-				}
-				if (isset($metadata['image_meta'])) {
-					$metadata['image_meta']['focalpoint_timestamp'] = time();
-				}
-				wp_update_attachment_metadata($post['ID'], $metadata);
-				//@unlink($file);
-				clean_post_cache($post['ID']);
-			}
-		}
-
-		return $post;
-	}
-
-	/**
-	 * Get position of focal point for image
-	 *
-	 * @param $image_id integer ID of image
-	 *
-	 * @return array
-	 */
-	public static function get_position($image_id)
-	{
-		$meta = get_post_meta($image_id, self::META_POSITION, true);
-		if ( !$meta) {
-			$meta = array(0.5, 0.5);
-		}
-
-		return $meta;
-	}
-
 	public static function image_resize_dimensions($something, $orig_w, $orig_h, $dest_w, $dest_h, $crop)
 	{
 		if ( !$crop || self::$lastPostId === null) {
@@ -188,6 +125,75 @@ class Admin {
 		return $file;
 	}
 
+	public function attachment_fields_to_save($post, $attachment)
+	{
+		if (isset($attachment[ self::META_POSITION ]) && $attachment[ self::META_POSITION ]) {
+			$previousPosition = self::get_position($post['ID']);
+			$position         = json_decode($attachment[ self::META_POSITION ]);
+			update_post_meta($post['ID'], self::META_POSITION, $position);
+
+			// Update the thumbnail if the position changed
+			if ($previousPosition[0] != $position[0] || $previousPosition[1] != $position[1]) {
+				$suffix           = '-focalcropped';
+				$realOldImagePath = get_attached_file($post['ID']);
+				$oldImagePath     = str_ireplace($suffix, '', $realOldImagePath);
+				if ( !file_exists($oldImagePath)) {
+					return $post;
+				}
+				// Rename file, while keeping the previous version
+				// Generate new filename
+				$oldImagePathParts = pathinfo($oldImagePath);
+
+				$filename = $oldImagePathParts['filename'];
+				$filename = str_ireplace($suffix, '', $filename);
+				$filename .= $suffix;
+
+				$newImageFile = "{$filename}.{$oldImagePathParts['extension']}";
+				$newImagePath = "{$oldImagePathParts['dirname']}/$newImageFile";
+
+				if (copy($oldImagePath, $newImagePath) === false) {
+					$post['errors']['focal_point'] = sprintf(__('Could not copy file %s to %s.', $this->plugin_name), $oldImagePath, $newImagePath);
+
+					return $post;
+				};
+				$url = $newImagePath;
+
+				//@set_time_limit(900); // 5 minutes per image should be PLENTY
+				update_attached_file($post['ID'], $url);
+				$metadata = wp_generate_attachment_metadata($post['ID'], $url);
+				if ( !$metadata || is_wp_error($metadata)) {
+					$post['errors']['focal_point'] = __('Empty metadata.', $this->plugin_name);
+
+					return $post;
+				}
+				if (isset($metadata['image_meta'])) {
+					$metadata['image_meta']['focalpoint_timestamp'] = time();
+				}
+				wp_update_attachment_metadata($post['ID'], $metadata);
+				clean_post_cache($post['ID']);
+			}
+		}
+
+		return $post;
+	}
+
+	/**
+	 * Get position of focal point for image
+	 *
+	 * @param $image_id integer ID of image
+	 *
+	 * @return array
+	 */
+	public static function get_position($image_id)
+	{
+		$meta = get_post_meta($image_id, self::META_POSITION, true);
+		if ( !$meta) {
+			$meta = array(0.5, 0.5);
+		}
+
+		return $meta;
+	}
+
 	/**
 	 * Add fields to the Media Upload dialog.
 	 *
@@ -220,10 +226,16 @@ class Admin {
 		$html = '<div class="focalpoint_mediaUpload">' . $html . '</div>';
 
 		// Create JavaScript.
-		$size = 150;
+		$size          = 150;
+		$sizes_to_show = Settings::get('sizes_to_show');
 		global $_wp_additional_image_sizes;
 		if ( !empty($_wp_additional_image_sizes)) {
 			foreach ($_wp_additional_image_sizes as $name => $image_sizes) {
+				if ( !empty($sizes_to_show)) {
+					if ( !in_array($name, $sizes_to_show)) {
+						continue;
+					}
+				}
 				if (strpos($name, 'lazy') || strpos($name, 'side')) {
 					continue;
 				}
