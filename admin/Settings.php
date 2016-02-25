@@ -18,11 +18,18 @@ class Settings {
 	 * Name for options to store
 	 */
 	const OPTIONS_NAME = 'focalpoint_options';
-
+	/**
+	 * @var array Defaults of settings
+	 */
+	public static $defaults = [
+		'upscale'       => false,
+		'unique_url'    => false,
+		'sizes_to_show' => [],
+	];
 	/**
 	 * Holds the values to be used in the fields callbacks
 	 */
-	private $options;
+	private $options = [];
 
 	/**
 	 * Settings constructor.
@@ -39,7 +46,7 @@ class Settings {
 
 	public static function get($name)
 	{
-		$options = get_option(self::OPTIONS_NAME);
+		$options = wp_parse_args(get_option(self::OPTIONS_NAME), self::$defaults);
 
 		return $options[ $name ];
 	}
@@ -64,7 +71,7 @@ class Settings {
 	public function create_admin_page()
 	{
 		// Set class property
-		$this->options = get_option(self::OPTIONS_NAME);
+		$this->options = wp_parse_args(get_option(self::OPTIONS_NAME), self::$defaults);
 		?>
 		<div class="wrap">
 			<h2>Focalpoint Settings</h2>
