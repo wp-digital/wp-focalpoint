@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: vitaly
- * Date: 12/18/15
- * Time: 12:43
+ * Fired during plugin activation
+ *
+ * @link       http://example.com
+ * @since      1.0.0
+ *
+ * @package    Admin
+ * @subpackage Admin/settings
  */
 
 namespace focalpoint\admin;

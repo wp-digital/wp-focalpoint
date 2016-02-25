@@ -10,14 +10,13 @@
  *
  *
  * Plugin Name:       Focal Point for images
- * Plugin URI:        http://example.com/plugin-name-uri/
  * Description:       Allow you to select center point of interest on image
- * Version:           0.1-alpha
+ * Version:           0.2
  * Author:            Vitaly Nikolev
- * Author URI:        http://example.com/
+ * Author URI:        http://redink.no
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       plugin-name
+ * Text Domain:       focalpoint
  * Domain Path:       /languages
  */
 
@@ -57,7 +56,6 @@ spl_autoload_register('focalpoint\autoload');
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-plugin-name-activator.php
  */
 function activate_wpfocalpoint()
 {
@@ -66,7 +64,6 @@ function activate_wpfocalpoint()
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/class--deactivator.php
  */
 function deactivate_wpfocalpoint()
 {
@@ -87,10 +84,8 @@ function deactivate_wpfocalpoint()
  */
 function run_wpfocalpoint()
 {
-
 	$plugin = new Focalpoint();
 	$plugin->run();
-
 }
 
 run_wpfocalpoint();
