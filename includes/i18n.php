@@ -36,7 +36,7 @@ class i18n {
 	{
 
 		load_plugin_textdomain(
-			'focalpoint',
+			'wp-focalpoint',
 			false,
 			dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
 		);

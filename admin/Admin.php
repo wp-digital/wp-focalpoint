@@ -220,7 +220,7 @@ class Admin {
 		$previewId = 'focalpoint_picker_preview_' . $post->ID;
 		$html .= '<p><span class="_targetIcon"></span>' . __("Click on the point of interest (the area you want to be center of it's thumbnail).", $this->plugin_name) . '</p>';
 		$html .= '<div id="' . $imageId . '" class="_picker"><img src="' . $image[0] . '"></div>';
-		$html .= '<br><button class="button button-small smartthumbnailupdate">Update</button>&nbsp;<span class="hidden" style="line-height: 26px;">' . __('You can go ahead. Resize will be finished in background.', $this->plugin_name) . '</span>';
+		$html .= '<br><button class="button button-small smartthumbnailupdate">' . __('Update', $this->plugin_name) . '</button>&nbsp;<span class="hidden" style="line-height: 26px;">' . __('You can go ahead. Resize will be finished in background.', $this->plugin_name) . '</span>';
 		$html .= '<p><span class="_previewIcon"></span><strong>' . __('Preview', $this->plugin_name) . '</strong> (' . __('this is how the thumbnails will look, depending on the size used', $this->plugin_name) . '):</p>';
 		$html .= '<div id="' . $previewId . '" class="_preview"></div>';
 		$html = '<div class="focalpoint_mediaUpload">' . $html . '</div>';

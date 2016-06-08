@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Focalpoint\n"
-"POT-Creation-Date: 2016-06-08 16:20+0300\n"
-"PO-Revision-Date: 2016-06-08 16:20+0300\n"
+"POT-Creation-Date: 2016-06-08 16:51+0300\n"
+"PO-Revision-Date: 2016-06-08 16:51+0300\n"
 "Last-Translator: Vitaly Nikolaev <trilliput@gmail.com>\n"
 "Language-Team: \n"
 "Language: nb_NO\n"
@@ -15,36 +15,43 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_e\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: admin/Admin.php:155
+#: admin/Admin.php:172
 #, php-format
 msgid "Could not copy file %s to %s."
-msgstr ""
+msgstr "Kan ikke kopiere filen %s til %s."
 
-#: admin/Admin.php:165
+#: admin/Admin.php:182
 msgid "Empty metadata."
-msgstr ""
+msgstr "Tom metadata."
 
 #: admin/Admin.php:221
 msgid ""
 "Click on the point of interest (the area you want to be center of it's "
 "thumbnail)."
 msgstr ""
+"Klikk på det punktet av interesse (det området du ønsker å være sentrum av "
+"miniatyrbildet )."
+
+#: admin/Admin.php:223
+msgid "Update"
+msgstr "Oppdatere"
 
 #: admin/Admin.php:223
 msgid "You can go ahead. Resize will be finished in background."
-msgstr ""
+msgstr "Du kan gå videre. Resize vil bli ferdig i bakgrunnen."
 
 #: admin/Admin.php:224
 msgid "Preview"
-msgstr ""
+msgstr "Forhåndsvis"
 
 #: admin/Admin.php:224
 msgid "this is how the thumbnails will look, depending on the size used"
 msgstr ""
+"dette er hvordan miniatyrbildene skal se ut, avhengig av størrelsen brukes"
 
 #: admin/Settings.php:60 admin/Settings.php:77
 msgid "Focalpoint Settings"
-msgstr ""
+msgstr "Focalpoint Innstillinger"
 
 #: admin/Settings.php:102
 msgid "General"
@@ -52,16 +59,16 @@ msgstr "Generelt"
 
 #: admin/Settings.php:110
 msgid "Upscale images?"
-msgstr ""
+msgstr "Bildestørrelser"
 
 #: admin/Settings.php:118
 msgid "Add unique image url for each new focal point position?"
-msgstr ""
+msgstr "Legg unikt bilde url for hver nye navet posisjon?"
 
 #: admin/Settings.php:126
 msgid "Select image sizes to show in preview"
-msgstr ""
+msgstr "Velg bildestørrelser i forhåndsvisning"
 
 #: admin/Settings.php:186
 msgid "Could be useful when you using CDN or else image caching system"
-msgstr ""
+msgstr "Kan være nyttig når du bruker CDN eller annet bilde caching system"
