@@ -3,7 +3,7 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://example.com
+ * @link       http://redink.no
  * @since      1.0.0
  *
  * @package    Admin

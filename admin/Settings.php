@@ -2,7 +2,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       http://example.com
+ * @link       http://redink.no
  * @since      1.0.0
  *
  * @package    Admin
@@ -57,7 +57,7 @@ class Settings {
 	public function add_plugin_page()
 	{
 		add_options_page(
-			'Focalpoint Settings',
+			__('Focalpoint Settings', $this->plugin_name),
 			'Focalpoint',
 			'manage_options',
 			'focalpoint-setting',
@@ -74,7 +74,7 @@ class Settings {
 		$this->options = wp_parse_args(get_option(self::OPTIONS_NAME), self::$defaults);
 		?>
 		<div class="wrap">
-			<h2>Focalpoint Settings</h2>
+			<h2><?php _e('Focalpoint Settings', $this->plugin_name) ?></h2>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields('focalpoint_general');

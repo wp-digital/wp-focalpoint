@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       http://redink.no
  * @since      1.0.0
  *
  * @package    Admin
@@ -111,6 +111,23 @@ class Admin {
 		return array(0, 0, (int) $s_x, (int) $s_y, (int) $new_w, (int) $new_h, (int) $crop_w, (int) $crop_h);
 	}
 
+	/**
+	 * Get position of focal point for image
+	 *
+	 * @param $image_id integer ID of image
+	 *
+	 * @return array
+	 */
+	public static function get_position($image_id)
+	{
+		$meta = get_post_meta($image_id, self::META_POSITION, true);
+		if ( !$meta) {
+			$meta = array(0.5, 0.5);
+		}
+
+		return $meta;
+	}
+
 	public static function wp_get_attachment_metadata($data, $postId)
 	{
 		self::$lastPostId = $postId;
@@ -178,23 +195,6 @@ class Admin {
 	}
 
 	/**
-	 * Get position of focal point for image
-	 *
-	 * @param $image_id integer ID of image
-	 *
-	 * @return array
-	 */
-	public static function get_position($image_id)
-	{
-		$meta = get_post_meta($image_id, self::META_POSITION, true);
-		if ( !$meta) {
-			$meta = array(0.5, 0.5);
-		}
-
-		return $meta;
-	}
-
-	/**
 	 * Add fields to the Media Upload dialog.
 	 *
 	 * @param $form_fields
@@ -218,10 +218,10 @@ class Admin {
 		$image     = wp_get_attachment_image_src($post->ID, 'medium');
 		$imageId   = 'focalpoint_picker_image_' . $post->ID;
 		$previewId = 'focalpoint_picker_preview_' . $post->ID;
-		$html .= '<p><span class="_targetIcon"></span>' . __('Click on the point of interest (the area you want included in the thumbnail).', $this->plugin_name) . '</p>';
+		$html .= '<p><span class="_targetIcon"></span>' . __("Click on the point of interest (the area you want to be center of it's thumbnail).", $this->plugin_name) . '</p>';
 		$html .= '<div id="' . $imageId . '" class="_picker"><img src="' . $image[0] . '"></div>';
-		$html .= '<br><button class="button button-small smartthumbnailupdate">Update</button>&nbsp;<span class="hidden" style="line-height: 26px;">You can go ahead. Resize will be finished in background.</span>';
-		$html .= '<p><span class="_previewIcon"></span><strong>' . __('Preview') . '</strong> (' . __('this is how the thumbnails will look, depending on the size used') . '):</p>';
+		$html .= '<br><button class="button button-small smartthumbnailupdate">Update</button>&nbsp;<span class="hidden" style="line-height: 26px;">' . __('You can go ahead. Resize will be finished in background.', $this->plugin_name) . '</span>';
+		$html .= '<p><span class="_previewIcon"></span><strong>' . __('Preview', $this->plugin_name) . '</strong> (' . __('this is how the thumbnails will look, depending on the size used', $this->plugin_name) . '):</p>';
 		$html .= '<div id="' . $previewId . '" class="_preview"></div>';
 		$html = '<div class="focalpoint_mediaUpload">' . $html . '</div>';
 

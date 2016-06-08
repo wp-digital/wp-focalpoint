@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://example.com
+ * @link       http://redink.no
  * @since      1.0.0
  *
  * @package    Admin
@@ -75,7 +75,7 @@ class Focalpoint {
 	public function __construct()
 	{
 
-		$this->plugin_name = 'plugin-name';
+		$this->plugin_name = 'wp-focalpoint';
 		$this->version     = '1.0.0';
 
 		$this->load_dependencies();
